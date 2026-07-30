@@ -1,0 +1,164 @@
+/* Contenedor general y Títulos (Mantenemos igual) */
+.building-section {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.section-title { text-align: center; margin-bottom: 2rem; }
+.section-title h2 { font-size: 2rem; margin-bottom: 0.5rem; color: #333; }
+
+.building-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.building-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* --- NUEVO: WRAPPER DEL PUNTO --- */
+/* Este contenedor se ubica en las coordenadas top/left de la imagen */
+.hotspot-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%); /* Centra el wrapper en la coordenada exacta */
+}
+
+/* --- DISEÑO DEL PUNTO --- */
+.hotspot-bullet {
+  width: 24px;
+  height: 24px;
+  background-color: #f5f6f1; /* Actualizado al verde lima de tu paleta */
+  border: 3px solid #1e293b; /* Borde oscuro para contraste */
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 0;
+  display: block; /* Importante para que no colapse */
+}
+
+.hotspot-bullet::before {
+  content: '';
+  position: absolute;
+  top: -4px; left: -4px; right: -4px; bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid #d2df55;
+  animation: pulse 2s infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+.hotspot-bullet:hover,
+.hotspot-bullet.active {
+  background-color: #c2ce4b;
+  transform: scale(1.2); /* Solo se agranda, ya no necesita translate aquí */
+}
+
+/* --- NUEVO: TOOLTIP LATERAL --- */
+.info-tooltip {
+  position: absolute;
+  top: 50%; /* Lo centra verticalmente respecto al punto */
+  left: 35px; /* Lo empuja a la derecha del punto */
+  transform: translateY(-50%); /* Ajuste fino de centrado vertical */
+  
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  width: 260px; /* Ancho fijo para que no se deforme */
+  text-align: left;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,0.05);
+  animation: slideInLateral 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Flechita (triángulo) apuntando al punto */
+.info-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -8px; /* Lo saca del borde izquierdo */
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-style: solid;
+  border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent;
+}
+
+.info-tooltip h3 {
+  margin: 0 0 8px 0;
+  color: #0f172a;
+  font-size: 1.1rem;
+  padding-right: 15px; /* Espacio para la cruz de cerrar */
+}
+
+.info-tooltip p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.4;
+  font-size: 0.85rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 4px;
+  line-height: 1;
+}
+
+.close-btn:hover { color: #0f172a; }
+
+@keyframes slideInLateral {
+  from { opacity: 0; transform: translate(-15px, -50%); }
+  to { opacity: 1; transform: translate(0, -50%); }
+}
+
+/* --- AJUSTE RESPONSIVE CRÍTICO PARA CELULARES --- */
+@media (max-width: 768px) {
+  .hotspot-bullet {
+    width: 30px; height: 30px; /* Dedos más grandes */
+  }
+  
+  /* En celular, si el tooltip sale a la derecha se corta la pantalla. 
+     Lo convertimos en un panel fijo abajo. */
+  .info-tooltip {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 90%;
+    z-index: 100;
+    animation: slideUpMobile 0.3s ease;
+  }
+
+  /* Ocultamos la flechita lateral en celular */
+  .info-tooltip::before {
+    display: none;
+  }
+}
+
+@keyframes slideUpMobile {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.hide-scrollbar { scrollbar-width: none; } 
+.hide-scrollbar::-webkit-scrollbar { display: none; }

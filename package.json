@@ -1,0 +1,35 @@
+{
+  "homepage": "https://franb312.github.io/edificio",
+  "name": "edificio-real-estate",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "@egjs/react-view360": "^3.0.4",
+    "@egjs/view360": "^3.6.4",
+    "@photo-sphere-viewer/core": "^5.14.3",
+    "lucide-react": "^1.23.0",
+    "pannellum-react": "^1.2.4",
+    "prop-types": "^15.8.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.14.2",
+    "react-zoom-pan-pinch": "^4.0.3",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.4",
+    "vite": "^8.0.10"
+  }
+}
