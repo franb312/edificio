@@ -129,7 +129,7 @@ className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 flex items-
 {/* Contenido Principal */}
 {/* pointer-events-none: es solo contenido decorativo, no debe tapar las flechas de paneo de los bordes */}
 <div
-className={`relative z-20 mx-auto max-w-7xl px-6 flex flex-col items-center text-center text-white mt-12 w-full pointer-events-none transition-all duration-1000 ease-out transform ${
+className={`relative z-20 mx-auto max-w-7xl px-6 flex flex-col items-center text-center text-white -mt-40 md:mt-12 w-full pointer-events-none transition-all duration-1000 ease-out transform ${
 isLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
 }`}
 style={{
