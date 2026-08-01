@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const PAN_SPEED = 60; // px/seg mientras se mantiene el cursor sobre una flecha
+const PAN_SPEED = 240; // px/seg mientras se mantiene el cursor (o se mantiene tocada) una flecha
 
 const HeroHeader = () => {
 const panXRef = useRef(0);
@@ -10,7 +10,6 @@ const rafRef = useRef(null);
 const lastTsRef = useRef(null);
 const [scrollY, setScrollY] = useState(0);
 const [isLoaded, setIsLoaded] = useState(false);
-const [hasFinePointer, setHasFinePointer] = useState(false);
 const [panX, setPanX] = useState(0);
 const [arrowsDiscovered, setArrowsDiscovered] = useState(false);
 
@@ -26,24 +25,11 @@ window.addEventListener("scroll", manejarScroll, { passive: true });
 return () => window.removeEventListener("scroll", manejarScroll);
 }, []);
 
-// Detecta si hay un mouse real (evita el paneo por cursor en touch/mobile)
+// Paneo continuo e infinito (loop real tipo 360°) mientras se mantiene presionada una de las flechas
+// de borde -- igual en mobile (touch) que en desktop (mouse). Se usa background-repeat en vez de
+// <img> para que el recorrido nunca "choque" contra un borde: al tapizar la panorámica, correr el
+// fondo más allá de su ancho simplemente vuelve a mostrar el inicio.
 useEffect(() => {
-const mq = window.matchMedia("(pointer: fine)");
-setHasFinePointer(mq.matches);
-const listener = (e) => setHasFinePointer(e.matches);
-if (mq.addEventListener) mq.addEventListener('change', listener);
-else mq.addListener(listener);
-return () => {
-if (mq.removeEventListener) mq.removeEventListener('change', listener);
-else mq.removeListener(listener);
-};
-}, []);
-
-// Paneo continuo e infinito (loop real tipo 360°) mientras el cursor está sobre una de las flechas de borde.
-// Se usa background-repeat en vez de <img> para que el recorrido nunca "choque" contra un borde: al
-// tapizar la panorámica, correr el fondo más allá de su ancho simplemente vuelve a mostrar el inicio.
-useEffect(() => {
-if (!hasFinePointer) return;
 const step = (ts) => {
 if (lastTsRef.current == null) lastTsRef.current = ts;
 const deltaSeg = (ts - lastTsRef.current) / 1000;
@@ -59,7 +45,7 @@ return () => {
 cancelAnimationFrame(rafRef.current);
 lastTsRef.current = null;
 };
-}, [hasFinePointer]);
+}, []);
 
 const nudgeTimeoutRef = useRef(null);
 
@@ -74,8 +60,9 @@ setArrowsDiscovered(true);
 }, []);
 const stopPan = useCallback(() => { directionRef.current = 0; }, []);
 
-// Click/tap corto en la flecha: para usuarios que no se quedan pasando el mouse por encima,
-// un click "empuja" la vista un tramo fijo, sin necesitar entender que hay que mantener el hover.
+// Click/tap corto en la flecha: en vez de tener que mantener presionado para que se mueva
+// (mouse en desktop) o simplemente no tener control (drift automático que teníamos antes en
+// mobile), un tap "empuja" la vista un tramo fijo. Funciona igual con mouse que con touch.
 const nudgePan = useCallback((direccion) => {
 startPan(direccion);
 nudgeTimeoutRef.current = setTimeout(() => {
@@ -86,13 +73,12 @@ nudgeTimeoutRef.current = null;
 
 return (
 <header className="relative h-[85vh] w-full overflow-hidden flex flex-col items-center justify-center bg-slate-900">
-{/* Fondo panorámico con efecto Parallax vertical + paneo lateral infinito (flechas en desktop, drift automático en mobile) */}
+{/* Fondo panorámico con efecto Parallax vertical + paneo lateral infinito, controlado por el
+usuario con las flechas de los bordes (mantener presionado con mouse, o tocar en mobile) */}
 <div
 className="absolute inset-x-0 w-full h-[120%] -top-[10%] z-0 pointer-events-none overflow-hidden"
 style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0)` }}
 >
-{hasFinePointer ? (
-// Desktop: fondo tapizado (repeat-x) para que el paneo con las flechas jamás llegue a un tope
 <div
 className="absolute inset-0 opacity-80"
 style={{
@@ -103,24 +89,13 @@ backgroundPositionX: `${panX}px`,
 backgroundPositionY: 'center',
 }}
 />
-) : (
-<img
-src="/panoramica.vistas.jpg"
-alt="Vista panorámica del entorno del edificio"
-decoding="async"
-fetchPriority="high"
-className="absolute inset-y-0 left-0 h-full w-auto max-w-none select-none opacity-80 animate-panorama-drift"
-/>
-)}
 </div>
 
-{/* Flechas de paneo (solo desktop con mouse): siempre visibles y grandes, no dependen de descubrir un
-hover invisible. Fondo tipo vidrio (transparente, no rompe la estética) en vez de un círculo blanco
-sólido. El pulso de atención se apaga solo la primera vez que el usuario interactúa con alguna
-de las dos, para no quedar titilando molestamente el resto de la visita. Funcionan tanto
-manteniendo el cursor encima (paneo continuo) como con un simple click (empuja la vista un tramo fijo). */}
-{hasFinePointer && (
-<>
+{/* Flechas de paneo: siempre visibles y grandes, no dependen de descubrir un hover invisible.
+Fondo tipo vidrio (transparente, no rompe la estética) en vez de un círculo blanco sólido.
+El pulso de atención se apaga solo la primera vez que el usuario interactúa con alguna de
+las dos. Funcionan manteniendo el cursor encima (paneo continuo, desktop) y con un simple
+tap/click (empuja la vista un tramo fijo, funciona igual en mobile que en desktop). */}
 <button
 type="button"
 aria-label="Ver hacia la izquierda"
@@ -147,8 +122,6 @@ className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 flex items-
 )}
 <ChevronRight className="relative w-8 h-8 md:w-9 md:h-9 text-white drop-shadow-md" strokeWidth={2.5} />
 </button>
-</>
-)}
 
 {/* Overlays y Degradados (Mejorando el contraste del fondo) */}
 <div className="absolute inset-0 z-10 bg-slate-900/40 mix-blend-multiply" />

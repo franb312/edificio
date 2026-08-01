@@ -14,15 +14,6 @@ export default {
       boxShadow: {
         soft: '0 24px 80px rgba(15, 23, 42, 0.12)',
       },
-      keyframes: {
-        'panorama-drift': {
-          '0%, 100%': { transform: 'translateX(0%)' },
-          '50%': { transform: 'translateX(-22%)' },
-        },
-      },
-      animation: {
-        'panorama-drift': 'panorama-drift 26s ease-in-out infinite',
-      },
     },
   },
   plugins: [],
