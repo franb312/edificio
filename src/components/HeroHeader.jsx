@@ -129,7 +129,7 @@ className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 flex items-
 {/* Contenido Principal */}
 {/* pointer-events-none: es solo contenido decorativo, no debe tapar las flechas de paneo de los bordes */}
 <div
-className={`relative z-20 mx-auto max-w-7xl px-6 flex flex-col items-center text-center text-white -mt-40 md:mt-12 w-full pointer-events-none transition-all duration-1000 ease-out transform ${
+className={`relative z-20 mx-auto max-w-7xl px-6 flex flex-col items-center text-center text-white -mt-40 md:-mt-56 w-full pointer-events-none transition-all duration-1000 ease-out transform ${
 isLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
 }`}
 style={{
@@ -145,22 +145,21 @@ Edificio
 </span>
 
 <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-6xl drop-shadow-xl">
-PATAGONES <span className="text-[#94a8b0]">1206</span>
+PATAGONES <span className="text-[#94a8b0]">1212</span>
 </h1>
-
-{/* Tira de amenities/distancias: más grande que la columna de texto para que se sienta a la escala del título.
-Solo en desktop: en mobile el texto de distancias queda ilegible a cualquier tamaño razonable. */}
-<img
-src="/dibujitos arriba.png"
-alt="Cercanía a playa, parques, comercios, escuelas y salud"
-decoding="async"
-className="hidden md:block mt-8 relative left-1/2 -translate-x-1/2 w-[90vw] max-w-[1600px] h-auto opacity-90 select-none"
-/>
 </div>
 
 {/* Logo Pioneros (reemplaza al indicador "Descubrir"): sin placa. invert+screen van directo en la img,
-sin un div contenedor posicionado en el medio, porque ese div arma su propio stacking context y
-aísla el mix-blend-mode del fondo real (se veía como una caja negra sólida en vez de transparentarse). */}
+sin un div/a contenedor posicionado en el medio, porque eso arma su propio stacking context y
+aísla el mix-blend-mode del fondo real (se veía como una caja negra sólida en vez de transparentarse).
+El <a> queda sin position/z-index/opacity propios para no crear ese stacking context: todo eso vive
+en la img, que sí está posicionada de forma absoluta contra el header. */}
+<a
+href="https://pioneros-hub.vercel.app/"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="Ir al sitio de Grupo Pioneros"
+>
 <img
 src="/logopioneros.webp"
 alt="Grupo Pioneros"
@@ -168,6 +167,7 @@ decoding="async"
 className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 h-6 md:h-7 w-auto invert mix-blend-screen select-none transition-opacity duration-300"
 style={{ opacity: Math.max(0, 0.9 - scrollY / 150) }}
 />
+</a>
 
 </header>
 );

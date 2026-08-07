@@ -186,7 +186,7 @@ const BuildingSelector2 = () => {
       {/* HEADER MOBILE INMERSIVO */}
       {previewedFloor && isMobile && (
         <div className="absolute top-0 inset-x-0 p-5 flex justify-center items-center z-50 w-full pointer-events-none">
-          <span className="text-slate-600 font-bold tracking-widest uppercase text-[10px]">Patagones 1206</span>
+          <span className="text-slate-600 font-bold tracking-widest uppercase text-[10px]">Patagones 1212</span>
           <button 
             onClick={() => setPreviewedFloor(null)} 
             className="absolute right-5 w-8 h-8 rounded-full bg-white/40 text-slate-700 flex items-center justify-center font-bold backdrop-blur-md pointer-events-auto shadow-sm"

@@ -139,7 +139,7 @@ export default function App() {
           {/* 2. BLOQUE CENTRAL: Copyright y Legales (Centro) */}
           <div className="flex flex-col items-center gap-4 text-center max-w-xl md:max-w-2xl flex-1">
             <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs md:text-sm">
-              <span className="text-slate-500 font-medium">© 2026 Patagones 1206.</span>
+              <span className="text-slate-500 font-medium">© 2026 Patagones 1212.</span>
               
             </div>
             

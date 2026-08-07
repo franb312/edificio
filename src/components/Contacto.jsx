@@ -19,7 +19,7 @@ export default function Contacto() {
       <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10">
         
         <a
-          href="https://wa.me/549XXXXXXXXX?text=Hola,%20quisiera%20más%20información%20sobre%20el%20Edificio%20Patagones%201206."
+          href="https://wa.me/549XXXXXXXXX?text=Hola,%20quisiera%20más%20información%20sobre%20el%20Edificio%20Patagones%201212."
           target="_blank"
           rel="noopener noreferrer"
           // Reduje el padding a px-5 py-2.5 y el redondeo a rounded-lg
@@ -43,10 +43,10 @@ export default function Contacto() {
             O escribinos a
           </span>
           <a 
-            href="mailto:hola@patagones1206.com" 
+            href="mailto:hola@patagones1212.com"
             className="text-xl md:text-2xl font-bold text-slate-700 hover:text-[#94a8b0] transition-colors select-all"
           >
-            hola@patagones1206.com
+            hola@patagones1212.com
           </a>
         </div>
 

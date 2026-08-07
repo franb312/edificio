@@ -258,7 +258,7 @@ const VistaDetallePiso = () => {
             ← Volver
           </button>
           <div className="text-right">
-            <span className="text-[#94a8b0] text-[10px] font-black tracking-widest uppercase block">Patagones 1206</span>
+            <span className="text-[#94a8b0] text-[10px] font-black tracking-widest uppercase block">Patagones 1212</span>
             <h1 className="text-base font-bold leading-tight">Detalle de Plantas</h1>
           </div>
         </div>

@@ -18,7 +18,7 @@ export default function Navbar({ isVisible }) {
         >
           PATAGONES
           <span className="text-[11px] md:text-xs font-extrabold ml-1 mt-0.5 tracking-normal text-slate-600">
-            1206
+            1212
           </span>
         </div>
 
